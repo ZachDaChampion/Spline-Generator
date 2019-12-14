@@ -30,8 +30,15 @@ class Point {
             if (link) {
 
                 if (this.is_control) {
-                    link.control_point.x = 2*link.endpoint.x - (this.x + 2*group.endpoint.x);
-                    link.control_point.y = 2*link.endpoint.y - (this.y + 2*group.endpoint.y);
+
+                    if (group.reverse_link) {
+                        link.control_point.x = 2*link.endpoint.x - (this.x + 2*group.endpoint.x);
+                        link.control_point.y = 2*link.endpoint.y - (this.y + 2*group.endpoint.y);
+                    }
+                    else {
+                        link.control_point.x = this.x;
+                        link.control_point.y = this.y;
+                    }
                 }
                 else {
                     link.endpoint.x = this.x;
@@ -47,7 +54,7 @@ class Point {
 
 class EndPoint {
 
-    constructor(x, y, angle, strength) {
+    constructor(x, y, angle, strength, reverse) {
 
         this.x = x;
         this.y = y;
@@ -55,6 +62,7 @@ class EndPoint {
         this.strength = strength;
         this.generatePoints();
         this.link = null;
+        this.reverse_link = reverse;
     }
 
     generatePoints() {
@@ -75,22 +83,30 @@ class EndPoint {
 }
 
 
-function createAsLink(link) {
+function createAsLink(link, reverse) {
 
     let endpoint = new EndPoint(0, 0, 0, 0);
-    linkEndpoints(link, endpoint);
+    linkEndpoints(link, endpoint, reverse);
     return endpoint;
 }
 
 
-function linkEndpoints(a, b) {
+function linkEndpoints(a, b, reverse) {
 
     a.link = b;
+    a.reverse_link = reverse;
     b.link = a;
+    b.reverse_link = reverse;
 
     b.endpoint.x = a.endpoint.x;
     b.endpoint.y = a.endpoint.y;
 
-    b.control_point.x = 2*b.endpoint.x - (a.control_point.x + 2*b.endpoint.x);
-    b.control_point.y = 2*b.endpoint.y - (a.control_point.y + 2*b.endpoint.y);
+    if (reverse) {
+        b.control_point.x = 2*b.endpoint.x - (a.control_point.x + 2*b.endpoint.x);
+        b.control_point.y = 2*b.endpoint.y - (a.control_point.y + 2*b.endpoint.y);
+    }
+    else {
+        b.control_point.x = a.control_point.x;
+        b.control_point.y = a.control_point.y;
+    }
 }
