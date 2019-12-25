@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<!-- <link rel="stylesheet" type="text/css;charset=UTF-8" href="styles.css"> -->
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Spline-Generator</title>
+	<title>Spline Planner</title>
 
 	<script src="libraries/p5.js"></script>
 	<script src="libraries/p5.dom.js"></script>
@@ -15,16 +16,52 @@
 	<script src="path.js"></script>
 
 	<style>
+		.card {
+			/* Add shadows to create the "card" effect */
+			margin: 32px 48px 32px 48px;
+			padding: 24px 24px 24px 24px;
+			box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+			background-color: white;;
+			transition: 0.3s;
+			border-radius: 6px;
+		}
+
+		/* On mouse-over, add a deeper shadow */
+		.card:hover {
+			box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+		}
+
 		body {
-			margin:0;
-			padding:0;
+			margin: 0;
+			padding: 0;
 			overflow: hidden;
+			background-color: #dddddd;
 		}
 		canvas {
-			margin:auto;
+			margin: 0;
+		}
+		h2 {
+			font-family: sans-serif;
 		}
 	</style>
 </head>
+<template id='card_template'>
+	<div class='card' style='text-align: left;;'>
+		<h2 id='title' style='padding-bottom: 32px; margin: 0px 24px;'>Title</h2>
+		<div style="display: flex;">
+			<p>X: </p>
+			<input id='x' type='text'/>
+			<div style="width: 100%;"></div>
+			<p>Y: </p>
+			<input id='y' type='text'/>
+		</div>
+	</div>
+</template>
 <body>
+
+	<div id='canvas_holder' style="display: inline-block;"></div>
+	<div id='cards_holder' style="display: inline-block; vertical-align: top; align-content: center; text-align: center; overflow-y: auto">
+	<h1 style="font-family: sans-serif;">Spline Planner</h1>
+
 </body>
 </html>
