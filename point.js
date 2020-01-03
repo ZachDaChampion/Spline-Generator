@@ -1,6 +1,6 @@
 class Point {
 
-  
+
   // constructor (who would've guessed)
   constructor(x, y, angle, strength_prev, strength_next) {
 
@@ -13,6 +13,6 @@ class Point {
 
 
   // generate control points from angle and strengths
-  generate_control_prev = () => new Point(this.x + this.strength_next * Math.cos(this.angle), this.y + this.strength_prev * Math.sin(this.angle));
+  generate_control_prev = () => new Point(this.x + this.strength_next * Math.cos(PI + this.angle), this.y + this.strength_prev * Math.sin(PI + this.angle));
   generate_control_next = () => new Point(this.x + this.strength_next * Math.cos(this.angle), this.y + this.strength_prev * Math.sin(this.angle));
 }

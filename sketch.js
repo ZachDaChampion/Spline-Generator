@@ -2,6 +2,9 @@ let canvas = null;
 let canvas_holder = null;
 let card_holder = null;
 
+let cards = [];
+let tentative_strength = 250;
+
 function setup() {
 
 	canvas = createCanvas(windowHeight, windowHeight);
@@ -17,19 +20,49 @@ function setup() {
 	canvas.parent(canvas_holder);
 
 	windowResized();
-
-	['test 1', 'test 2', 'test 3', 'test 1', 'test 2', 'test 3', 'test 1', 'test 2', 'test 3'].forEach(title => {
-		let card = document.getElementById('card_template').content.cloneNode(true);
-		card.querySelector('#title').innerText = title;
-		card_holder.appendChild(card);
-	});
 }
 
 function draw() {
 	
 	background(0);
+
+	beginShape();
+	let p = generate_path();
+	noFill();
+	stroke(255);
+	for (let i = 0; i < p.length; i++) {
+		vertex(p[i].x, p[i].y);
+	}
+	endShape();
+
+	if (path.length > 0 && mouseX < width) {
+		beginShape();
+		noFill();
+		stroke(100);
+		let s = generate_seg_from_pts(path[path.length - 1], new Point(mouseX, mouseY, 0, tentative_strength, tentative_strength));
+		for (let i = 0; i < s.length; i++) {
+			vertex(s[i].x, s[i].y);
+		}
+		endShape();
+	}
 }
 
 function windowResized() {
 	canvas.resize(windowHeight, windowHeight);
+}
+
+function mouseWheel(event) {
+
+	if (mouseX < width) tentative_strength += event.delta;
+}
+
+function mouseClicked() {
+
+	if (mouseX < width) {
+		path.push(new Point(mouseX, mouseY, 0, tentative_strength, tentative_strength));
+		let c = document.getElementById('card_template').content.cloneNode(true);
+		c.querySelector('#title').innerText = 'Point ' + path.length;
+		card_holder.appendChild(c);
+		tentative_strength = 250;
+	}
 }

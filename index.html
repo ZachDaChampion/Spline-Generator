@@ -23,7 +23,7 @@
 			box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 			background-color: white;;
 			transition: 0.3s;
-			border-radius: 6px;
+			border-radius: 8px;
 		}
 
 		/* On mouse-over, add a deeper shadow */
@@ -43,16 +43,29 @@
 		h2 {
 			font-family: sans-serif;
 		}
+		input {
+			border-radius: 12px;
+			border: 2px solid black;
+			outline: 0;
+			padding: 0px 8px 0px 8px;
+		}
+		input:focus {
+			border-color: gray;
+			border-width: 2px;
+		}
 	</style>
+
+
 </head>
 <template id='card_template'>
-	<div class='card' style='text-align: left;;'>
+	<div class='card' style='text-align: left;'>
 		<h2 id='title' style='padding-bottom: 32px; margin: 0px 24px;'>Title</h2>
-		<div style="display: flex;">
-			<p>X: </p>
+		<div style="display: flex; padding: 8px;">
+			<p style='padding-right: 18px;'>X:</p>
 			<input id='x' type='text'/>
-			<div style="width: 100%;"></div>
-			<p>Y: </p>
+		</div>
+		<div style="display: flex; padding: 8px;">
+			<p style='padding-right: 18px;'>Y:</p>
 			<input id='y' type='text'/>
 		</div>
 	</div>
