@@ -50,9 +50,17 @@ function draw() {
 		endShape();
 	}
 
+	if (mouseX < width) noCursor();
+	else cursor(ARROW);
+
 	stroke(255);
 	fill(0);
-	ellipse(mouseX, mouseY, 5);
+	push();
+	translate(mouseX, mouseY);
+	rotate(tentative_angle);
+	line(-10, 0, 10, 0);
+	ellipse(0, 0, 5);
+	pop();
 	if (selected_index != null) ellipse(int(path[selected_index].x), int(path[selected_index].y), 10);
 }
 
