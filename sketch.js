@@ -62,7 +62,14 @@ function mouseClicked() {
 		path.push(new Point(mouseX, mouseY, 0, tentative_strength, tentative_strength));
 		let c = document.getElementById('card_template').content.cloneNode(true);
 		c.querySelector('#title').innerText = 'Point ' + path.length;
+    c.querySelector('#card_container').setAttribute('data-index', toString(path.length - 1));
 		card_holder.appendChild(c);
 		tentative_strength = 250;
 	}
+}
+
+
+window.onerror = function(msg, url, linenumber) {
+    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+    return true;
 }

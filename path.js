@@ -1,4 +1,5 @@
 let path = [];
+let selected_index = null;
 
 
 // generate one segment from points
