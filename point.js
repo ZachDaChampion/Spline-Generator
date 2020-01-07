@@ -15,4 +15,16 @@ class Point {
   // generate control points from angle and strengths
   generate_control_prev = () => new Point(this.x + this.strength_next * Math.cos(PI + this.angle), this.y + this.strength_prev * Math.sin(PI + this.angle));
   generate_control_next = () => new Point(this.x + this.strength_next * Math.cos(this.angle), this.y + this.strength_prev * Math.sin(this.angle));
+
+
+  // update x coordinate
+  update_x(x) {
+    this.x = int(x);
+  }
+
+
+  // update y coordinate
+  update_y(y) {
+    this.y = int(y);
+  }
 }

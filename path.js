@@ -40,9 +40,12 @@ function generate_segment(index, step_size) {
 
 
 // generate full path
-function generate_path(step_size) {
+function generate_path(concate_path = true, step_size = .01) {
 
   let result = [];
-  for (let i = 0; i < path.length - 1; i++) result = result.concat(generate_segment(i, step_size));
+  for (let i = 0; i < path.length - 1; i++) {
+    if (concate_path) result = result.concat(generate_segment(i, step_size));
+    else result.push(generate_segment(i, step_size));
+  }
   return result;
 }

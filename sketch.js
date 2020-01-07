@@ -4,6 +4,7 @@ let card_holder = null;
 
 let cards = [];
 let tentative_strength = 250;
+let tentative_angle = 0;
 
 function setup() {
 
@@ -26,25 +27,33 @@ function draw() {
 	
 	background(0);
 
-	beginShape();
-	let p = generate_path();
+	let p = generate_path(false);
 	noFill();
-	stroke(255);
-	for (let i = 0; i < p.length; i++) {
-		vertex(p[i].x, p[i].y);
+	for (let seg = 0; seg < p.length; seg++) {
+		if ((selected_index === null && mouseX < width) || seg === int(selected_index) || seg === int(selected_index -1)) stroke(255);
+		else stroke(64);
+		beginShape();
+		for (let i = 0; i < p[seg].length; i++) {
+			vertex(p[seg][i].x, p[seg][i].y);
+		}
+		endShape();
 	}
-	endShape();
 
 	if (path.length > 0 && mouseX < width) {
 		beginShape();
 		noFill();
 		stroke(100);
-		let s = generate_seg_from_pts(path[path.length - 1], new Point(mouseX, mouseY, 0, tentative_strength, tentative_strength));
+		let s = generate_seg_from_pts(path[path.length - 1], new Point(mouseX, mouseY, tentative_angle, tentative_strength, tentative_strength));
 		for (let i = 0; i < s.length; i++) {
 			vertex(s[i].x, s[i].y);
 		}
 		endShape();
 	}
+
+	stroke(255);
+	fill(0);
+	ellipse(mouseX, mouseY, 5);
+	if (selected_index != null) ellipse(int(path[selected_index].x), int(path[selected_index].y), 10);
 }
 
 function windowResized() {
@@ -53,23 +62,31 @@ function windowResized() {
 
 function mouseWheel(event) {
 
-	if (mouseX < width) tentative_strength += event.delta;
+	if (mouseX < width) {
+		if (keyIsDown(CONTROL)) tentative_strength += event.delta;
+		else tentative_angle += event.delta / 250;
+	}
 }
 
 function mouseClicked() {
 
 	if (mouseX < width) {
-		path.push(new Point(mouseX, mouseY, 0, tentative_strength, tentative_strength));
+		path.push(new Point(mouseX, mouseY, tentative_angle, tentative_strength, tentative_strength));
 		let c = document.getElementById('card_template').content.cloneNode(true);
+
 		c.querySelector('#title').innerText = 'Point ' + path.length;
-    c.querySelector('#card_container').setAttribute('data-index', toString(path.length - 1));
+		c.querySelector('#x').value = mouseX;
+		c.querySelector('#y').value = mouseY;
+		c.querySelector('#card_container').setAttribute('data-index', '' + (path.length - 1));
+		
 		card_holder.appendChild(c);
 		tentative_strength = 250;
+		tentative_angle = 0;
 	}
 }
 
 
-window.onerror = function(msg, url, linenumber) {
-    alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-    return true;
-}
+// window.onerror = function(msg, url, linenumber) {
+//     alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+//     return true;
+// }
